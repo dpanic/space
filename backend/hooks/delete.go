@@ -14,12 +14,13 @@ import (
 func deleteHandler(ctx *gin.Context) {
 	var (
 		sErrors = make([]error, 0)
+		res     interface{}
 		id      string
 	)
 
 	logger.Log.Debug("attempt to delete project")
 	defer func() {
-		response(ctx, sErrors, nil, "delete")
+		response(ctx, sErrors, res, "delete")
 	}()
 
 	id = ctx.Param("id")
@@ -35,8 +36,10 @@ func deleteHandler(ctx *gin.Context) {
 		sErrors = append(sErrors, wErr)
 		return
 	}
+
+	res = id
 }
 
 func init() {
-	server.Router.Handle("DELETE", "/project/:id", deleteHandler)
+	server.Authorized.Handle("DELETE", "/projects/:id", deleteHandler)
 }

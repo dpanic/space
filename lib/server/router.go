@@ -8,10 +8,17 @@ import (
 )
 
 var (
-	Router = gin.New()
+	Router     = gin.New()
+	Authorized *gin.RouterGroup
+	user       = "space"
+	pass       = "maker"
 )
 
 func init() {
+	Authorized = Router.Group("/", gin.BasicAuth(gin.Accounts{
+		user: pass,
+	}))
+
 	// Define and set request ID
 	Router.Use(func(ctx *gin.Context) {
 		id, _ := crypto.UUID()

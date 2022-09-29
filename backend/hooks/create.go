@@ -10,16 +10,17 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-// createProjectHandler is handling API calls
-func createProjectHandler(ctx *gin.Context) {
+// createHandler is handling API calls
+func createHandler(ctx *gin.Context) {
 	var (
 		project models.Project
+		res     interface{}
 		sErrors = make([]error, 0)
 	)
 
 	logger.Log.Debug("attempt to create project")
 	defer func() {
-		response(ctx, sErrors, nil, "create")
+		response(ctx, sErrors, res, "create")
 	}()
 
 	err := ctx.ShouldBind(&project)
@@ -43,9 +44,14 @@ func createProjectHandler(ctx *gin.Context) {
 		return
 	}
 
-	(*storage).Create(project.Name)
+	id, err := (*storage).Create(project.Name)
+	if err != nil {
+		sErrors = append(sErrors, err)
+	}
+
+	res = id
 }
 
 func init() {
-	server.Router.Handle("POST", "/project", createProjectHandler)
+	server.Authorized.Handle("POST", "/projects", createHandler)
 }

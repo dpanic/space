@@ -23,7 +23,8 @@ func Bind() {
 
 func response(ctx *gin.Context, sErrors []error, res interface{}, action string) {
 	var (
-		out = make(map[string]interface{})
+		out      = make(map[string]interface{})
+		response interface{}
 	)
 
 	if len(sErrors) > 0 {
@@ -50,7 +51,9 @@ func response(ctx *gin.Context, sErrors []error, res interface{}, action string)
 
 	} else {
 		msg := fmt.Sprintf("success in %s", action)
-		logger.Log.Info(msg)
+		logger.Log.Info(msg,
+			zap.Any("res", res),
+		)
 
 		out = make(map[string]interface{})
 		out["status"] = true
@@ -58,8 +61,8 @@ func response(ctx *gin.Context, sErrors []error, res interface{}, action string)
 		out["data"] = res
 	}
 
-	res = out
-	serverAction.Response(ctx, res)
+	response = out
+	serverAction.Response(ctx, response)
 }
 
 func init() {

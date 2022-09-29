@@ -1,13 +1,15 @@
 package models
 
-//go:generate easytags $GOFILE json:camel
+//go:generate easytags $GOFILE json:snake
 type Project struct {
 	Id   string `json:"id"`
-	Name string `json:"name"`
-	Data Data
+	Name string `json:"name" validate:"required"`
+	Data Data   `json:"data"`
+
+	_ struct{} `type:"structure"`
 }
 
 type Data struct {
-	BuildingLimits GeoJSONFeature
-	HeighPlateaus  GeoJSONFeature
+	BuildingLimits GeoJSONFeatureCollection `json:"building_limits"`
+	HeighPlateaus  GeoJSONFeatureCollection `json:"heigh_plateaus"`
 }

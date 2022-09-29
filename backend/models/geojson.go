@@ -1,13 +1,16 @@
 package models
 
-//go:generate easytags $GOFILE json:camel
-type GeoJSONFeature struct {
-	Type       string                 `json:"type"`
-	Properties map[string]interface{} `json:"properties"`
-	Geometry   GeoJSONGeometry        `json:"geometry"`
+//go:generate easytags $GOFILE json:snake
+type GeoJSONFeatureCollection struct {
+	Type     string
+	Features GeoJSONFeature
 }
 
-type GeoJSONGeometry struct {
-	Type        string      `json:"type"`
-	Coordinates [][]float64 `json:"coordinates"`
+type GeoJSONFeature struct {
+	Type       string
+	Properties map[string]interface{}
+	Geometry   struct {
+		Type        string
+		Coordinates [][]float64
+	}
 }

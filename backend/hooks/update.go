@@ -49,5 +49,5 @@ func updateHandler(ctx *gin.Context) {
 }
 
 func init() {
-	server.Router.Handle("PUT", "/projects/:id", updateHandler)
+	server.Authorized.Handle("PUT", "/projects/:id", updateHandler)
 }

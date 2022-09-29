@@ -1,10 +1,12 @@
 package hooks
 
 import (
+	"fmt"
 	"space/lib/logger"
 	"space/lib/server"
 
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 // readHandler is handling API calls
@@ -20,7 +22,11 @@ func readHandler(ctx *gin.Context) {
 	}()
 
 	id := ctx.Param("id")
-	if id == "" {
+	if id != "" {
+		logger.Log.Debug("reading project",
+			zap.String("id", id),
+		)
+
 		obj, err := (*storage).Read(id)
 		if err != nil {
 			sErrors = append(sErrors, err)
@@ -29,16 +35,20 @@ func readHandler(ctx *gin.Context) {
 		res = obj
 
 	} else {
+		logger.Log.Debug("reading multiple projects")
+
 		results, err := (*storage).List()
 		if err != nil {
 			sErrors = append(sErrors, err)
 			return
 		}
+
+		fmt.Println(1)
 		res = results
 	}
 }
 
 func init() {
-	server.Router.Handle("GET", "/projects/:id", readHandler)
-	server.Router.Handle("GET", "/projects", readHandler)
+	server.Authorized.Handle("GET", "/projects/:id", readHandler)
+	server.Authorized.Handle("GET", "/projects", readHandler)
 }
