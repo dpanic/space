@@ -33,7 +33,7 @@ COPY /lib/server/ca/binaries/mkcert-linux /bin/mkcert
 RUN chmod a+x /bin/mkcert
 
 VOLUME ["/tmp"]
-EXPOSE 8000
+EXPOSE 9000
 
 ENV GODEBUG="madvdontneed=1"
 ENTRYPOINT ["/app"]

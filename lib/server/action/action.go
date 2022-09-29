@@ -16,7 +16,7 @@ func encodeResponse(res interface{}) (out string, err error) {
 	// we can do this manually by escaping: < > ' " &
 	enc.SetEscapeHTML(true)
 
-	enc.SetIndent("", "\t")
+	enc.SetIndent("", "    ")
 	err = enc.Encode(res)
 	out = b.String()
 

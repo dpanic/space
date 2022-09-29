@@ -2,7 +2,6 @@ package hooks
 
 import (
 	"fmt"
-	"os"
 	"space/backend/storages"
 	"space/lib/logger"
 	serverAction "space/lib/server/action"
@@ -15,9 +14,8 @@ import (
 // use a single instance of Validate, it caches struct info
 var (
 	validate       = validator.New()
-	rootDir        string
-	desiredStorage = "disk"
 	storage        *storages.Storage
+	desiredStorage = "disk"
 )
 
 func Bind() {
@@ -65,11 +63,6 @@ func response(ctx *gin.Context, sErrors []error, res interface{}, action string)
 }
 
 func init() {
-	rootDir = os.Getenv("rootDir")
-	if rootDir == "" {
-		rootDir = "/tmp"
-	}
-
 	var found bool
 	storage, found = storages.Get(desiredStorage)
 	if !found {

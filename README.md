@@ -21,9 +21,10 @@ You should set .envrc and .aws_credentials
     * APP Load Balancer handling HTTPS termination with valid SSL/TLS Certificate
     * Attach EFS disk to 3 instances
 
-* Add HTTP Basic Auth % 
-* Create Unit Tests % 
-* 
+* Implement logic - 2h %
+* Concurrent access %
+* Add HTTP Basic Auth - 15min % 
+* Create Unit Tests - 1h % 
 
 
 ## Build

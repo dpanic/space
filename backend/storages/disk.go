@@ -42,8 +42,12 @@ func (d *Disk) Delete(id string) (err error) {
 }
 
 func init() {
-	disk := NewDisk("tmp/")
-	instances["disk"] = disk
+	rootDir := os.Getenv("ROOT_DIR")
+	if rootDir == "" {
+		rootDir = "/tmp"
+	}
 
-	os.MkdirAll(disk.RootDir, 0755)
+	instances["disk"] = NewDisk(rootDir)
+
+	os.MkdirAll(rootDir, 0755)
 }

@@ -1,9 +1,7 @@
 package middlewares
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net"
 	"os"
 	"path/filepath"
@@ -45,32 +43,5 @@ func middlewareRecovery() {
 		log.Error(fmt.Sprintf("panic recovered in %s Middleware", file),
 			zap.String("recover", fmt.Sprintf("%v", err)),
 		)
-	}
-}
-
-var rootDir string
-
-func init() {
-	rootDir = os.Getenv("rootDir")
-	if rootDir == "" {
-		rootDir = "/tmp"
-	}
-
-	filePath := filepath.Join(rootDir, "db.json")
-	_, err := os.Stat(filePath)
-	if err != nil {
-		user := []map[string]interface{}{
-			{
-				"email":     "admin",
-				"id":        "admin",
-				"firstname": "admin",
-				"lastname":  "admin",
-				"role":      "admin",
-				"password":  "1234.dbe9787aaf4002c6662e490b3f1f7512807459b6dee2e1c2e56738e1cbbd993c",
-			},
-		}
-
-		raw, _ := json.Marshal(user)
-		ioutil.WriteFile(filePath, raw, 0744)
 	}
 }
