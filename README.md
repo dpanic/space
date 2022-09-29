@@ -6,14 +6,14 @@ You should set .envrc and .aws_credentials
 aws ecs stop-task --cluster "${CLUSTER}" --task $(aws ecs list-tasks --cluster "${CLUSTER}" --service "${SERVICE}" --output text --query "taskArns[0]")
 
 
-## Features:
+## Features
 * Init of basic project
 * REST API 
     + Create:     POST /projects
     Update:     PUT /projects/:id
-    Read:       GET /projects/:id
+    + Read:       GET /projects/:id
     + Delete:     DELETE /projects/:id
-    Read all:   GET /projects/
+    + Read all:   GET /projects/
     
 * Persistent storage adapters (disk, extensible to s3 etc.)
 * Create deploy to ECS
@@ -30,6 +30,12 @@ aws ecs stop-task --cluster "${CLUSTER}" --task $(aws ecs list-tasks --cluster "
 * Create Postman Collection for DEVELOPMENT
 * Create Postman Collection for PRODUCTIOn
 
+
+## Flow
+* Create project, you receive ID based on project name
+* Update project by ID with height_plateaus and building_limits data
+* System will calculate split_building_limits and save it to disk
+* Revision of data will be increased, in order to prevent overwriting each others data
 
 ## Build
 ```make build```

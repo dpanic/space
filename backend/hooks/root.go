@@ -21,10 +21,18 @@ var (
 func Bind() {
 }
 
+//go:generate easytags $GOFILE json:snake
+type Response struct {
+	Status  bool        `json:"status"`
+	Message string      `json:"message"`
+	Results interface{} `json:"results"`
+	Total   int         `json:"total"`
+	Errors  []string    `json:"errors,omitempty"`
+}
+
 func response(ctx *gin.Context, sErrors []error, res interface{}, action string) {
 	var (
-		out      = make(map[string]interface{})
-		response interface{}
+		response Response
 	)
 
 	if len(sErrors) > 0 {
@@ -32,7 +40,6 @@ func response(ctx *gin.Context, sErrors []error, res interface{}, action string)
 			errMessage   = ""
 			parsedErrors = make([]string, 0)
 		)
-
 		for _, err := range sErrors {
 			errMessage += err.Error() + " "
 			parsedErrors = append(parsedErrors, err.Error())
@@ -45,23 +52,22 @@ func response(ctx *gin.Context, sErrors []error, res interface{}, action string)
 			zap.Error(err),
 		)
 
-		out["status"] = false
-		out["message"] = msg
-		out["errors"] = parsedErrors
+		response.Status = false
+		response.Message = msg
+		response.Errors = parsedErrors
 
 	} else {
 		msg := fmt.Sprintf("success in %s", action)
+		value := fmt.Sprintf("%+v", res)
 		logger.Log.Info(msg,
-			zap.Any("res", res),
+			zap.String("res", value),
 		)
 
-		out = make(map[string]interface{})
-		out["status"] = true
-		out["message"] = msg
-		out["data"] = res
+		response.Status = true
+		response.Message = msg
+		response.Results = res
 	}
 
-	response = out
 	serverAction.Response(ctx, response)
 }
 

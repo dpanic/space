@@ -1,5 +1,6 @@
 # Stage 1: BUILD
 FROM golang:1.19.1-bullseye as BUILDER
+ARG LDFLAGS
 
 RUN apt-get update && apt-get -y install --no-install-recommends \
     ca-certificates \
@@ -12,7 +13,8 @@ ENV GO111MODULE=on
 RUN go get || true
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-RUN GODEBUG="madvdontneed=1" CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /app
+RUN GODEBUG="madvdontneed=1" CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+    go build -ldflags="${LDFLAGS}" -o /app
 
 
 # Stage 2: DEPLOY

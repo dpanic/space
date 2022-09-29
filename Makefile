@@ -7,23 +7,32 @@ AWS_SHARED_CREDENTIALS_FILE=.aws_credentials
 
 all: build deploy
 
+
+run:
+	go run main.go
+
 build:
 	aws ecr get-login-password --region "${REGION}" | docker login --username AWS --password-stdin $(REPOSITORY_URI)
 
 	$(eval COMMIT_HASH=$(shell git rev-parse HEAD | cut -c1-7))
 	$(eval TIME_STAMP=$(shell date +%Y.%m%d.%H%M))
 
+
 	docker buildx build \
 		-t $(REPOSITORY_URI)/${REPOSITORY}:latest \
 		-t $(REPOSITORY_URI)/${REPOSITORY}:$(COMMIT_HASH) \
 		-t $(REPOSITORY_URI)/${REPOSITORY}:$(TIME_STAMP) \
+		--build-arg LDFLAGS="-w -s -X \"main.Version=${COMMIT_HASH}\"" \
 		. -f ./Dockerfile
 	
-deploy:
+deploy: build
 	docker push $(REPOSITORY_URI)/${REPOSITORY}:latest
 	docker push $(REPOSITORY_URI)/${REPOSITORY}:$(COMMIT_HASH)
 	docker push $(REPOSITORY_URI)/${REPOSITORY}:$(TIME_STAMP)
 
-	$(eval TASKS=$(shell AWS_SHARED_CREDENTIALS_FILE=.aws_credentials aws ecs list-tasks --cluster "${CLUSTER}" --service "${SERVICE}" --output text --region "${REGION}" --query "taskArns[0]"))
-	aws ecs stop-task --cluster "${CLUSTER}" --task "${TASKS}" --region "${REGION}"
+	$(eval TASKS=$(shell AWS_SHARED_CREDENTIALS_FILE=.aws_credentials aws ecs list-tasks --cluster "${CLUSTER}" --service "${SERVICE}" --output text --region "${REGION}" --query "taskArns"))
+
+	for task in $(TASKS); do \
+		aws ecs stop-task --cluster "${CLUSTER}" --task "$$task" --region "${REGION}" | jq; \
+	done
 

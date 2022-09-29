@@ -2,15 +2,15 @@ package models
 
 //go:generate easytags $GOFILE json:snake
 type GeoJSONFeatureCollection struct {
-	Type     string
-	Features GeoJSONFeature
+	Type     string         `json:"type"`
+	Features GeoJSONFeature `json:"features"`
 }
 
 type GeoJSONFeature struct {
-	Type       string
-	Properties map[string]interface{}
+	Type       string                 `json:"type"`
+	Properties map[string]interface{} `json:"properties"`
 	Geometry   struct {
-		Type        string
-		Coordinates [][]float64
-	}
+		Type        string      `json:"type"`
+		Coordinates [][]float64 `json:"coordinates"`
+	} `json:"geometry"`
 }

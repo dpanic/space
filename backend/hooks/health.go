@@ -13,6 +13,9 @@ import (
 var (
 	started  time.Time
 	hostname string
+
+	Version string
+	BuiltOn string
 )
 
 func init() {
@@ -24,6 +27,8 @@ type HealthResponse struct {
 	Message  string `json:"message"`
 	Uptime   string `json:"uptime"`
 	Hostname string `json:"hostname"`
+	Version  string `json:"version"`
+	BuiltOn  string `json:"builtOn"`
 }
 
 func healthHandler(ctx *gin.Context) {
@@ -33,6 +38,8 @@ func healthHandler(ctx *gin.Context) {
 		Message:  "all ok!",
 		Uptime:   fmt.Sprintf("%v", time.Since(started)),
 		Hostname: hostname,
+		Version:  Version,
+		BuiltOn:  BuiltOn,
 	}
 	serverAction.Response(ctx, res)
 }
