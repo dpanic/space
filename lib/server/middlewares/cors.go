@@ -4,10 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	Origin = ""
-)
-
 // CORS will inject HTTP header Access-Control-Allow-Origin
 func CORS() gin.HandlerFunc {
 	return func(ctx *gin.Context) {

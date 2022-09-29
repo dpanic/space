@@ -5,7 +5,6 @@ import (
 	"space/lib/logger"
 	"space/lib/server"
 	"space/lib/server/ca"
-	"space/lib/server/middlewares"
 
 	"net"
 	"net/http"
@@ -22,7 +21,6 @@ var (
 
 func init() {
 	hooks.Bind()
-	middlewares.SetOrigin(ip, port)
 }
 
 func Start() {

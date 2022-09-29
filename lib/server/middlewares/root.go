@@ -2,7 +2,6 @@ package middlewares
 
 import (
 	"fmt"
-	"net"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -14,20 +13,11 @@ import (
 )
 
 var (
-	environment  = os.Getenv("ENVIRONMENT")
-	serverDomain = os.Getenv("SERVER_DOMAIN")
+	environment = os.Getenv("ENVIRONMENT")
 )
 
 func init() {
 	environment = strings.ToLower(environment)
-}
-
-func SetOrigin(ip net.IP, port int) {
-	if environment == "development" {
-		Origin = "*"
-	} else {
-		Origin = fmt.Sprintf("https://%s:%d", serverDomain, port)
-	}
 }
 
 // middlewareRecovery recovers middleware from a problem

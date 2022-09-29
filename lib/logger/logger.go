@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"os"
 	"space/lib/logger/encoders"
 	"space/lib/logger/filters"
 
@@ -21,13 +22,19 @@ func init() {
 
 // configure will return instance of zap logger configuration, configured to be verbose or to use JSON formatting
 func Setup() (logger *zap.Logger, err error) {
+	environment := os.Getenv("ENVIRONMENT")
+	encoding := "secureConsole"
+	if environment == "production" {
+		encoding = "json"
+	}
+
 	config := zap.Config{
 		Level:             zap.NewAtomicLevelAt(zapcore.DebugLevel),
 		Development:       false,
 		DisableCaller:     false,
 		DisableStacktrace: false,
 		Sampling:          nil,
-		Encoding:          "secureConsole",
+		Encoding:          encoding,
 		EncoderConfig: zapcore.EncoderConfig{
 			MessageKey:     "message",
 			LevelKey:       "level",

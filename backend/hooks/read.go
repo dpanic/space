@@ -14,7 +14,7 @@ func readHandler(ctx *gin.Context) {
 		sErrors = make([]error, 0)
 	)
 
-	logger.Log.Debug("attempt to read user")
+	logger.Log.Debug("attempt to read projects")
 	defer func() {
 		response(ctx, sErrors, res, "read")
 	}()
