@@ -26,8 +26,8 @@ func Bind() {
 type Response struct {
 	Status  bool        `json:"status"`
 	Message string      `json:"message"`
-	Total   int         `json:"total"`
-	Results interface{} `json:"results"`
+	Total   *int        `json:"total,omitempty"`
+	Results interface{} `json:"results,omitempty"`
 	Errors  []string    `json:"errors,omitempty"`
 }
 
@@ -68,16 +68,19 @@ func response(ctx *gin.Context, sErrors []error, res interface{}, action string)
 		response.Message = msg
 		response.Results = res
 
-		total := 0
+		var total *int
 		switch res := res.(type) {
 		case []interface{}:
-			total = len(res)
+			val := len(res)
+			total = &val
 
 		case []string:
-			total = len(res)
+			val := len(res)
+			total = &val
 
 		case []*models.Project:
-			total = len(res)
+			val := len(res)
+			total = &val
 		}
 
 		response.Total = total

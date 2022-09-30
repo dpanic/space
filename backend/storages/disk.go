@@ -7,19 +7,16 @@ import (
 	"path/filepath"
 	"space/backend/models"
 	"space/lib/crypto"
-	"sync"
 	"time"
 )
 
 type Disk struct {
 	RootDir string
-	Mutex   *sync.Mutex
 }
 
 func NewDisk(rootDir string) *Disk {
 	return &Disk{
 		RootDir: rootDir,
-		Mutex:   &sync.Mutex{},
 	}
 }
 
@@ -98,8 +95,9 @@ func (d *Disk) getProjectPath(id string) (projectPath string) {
 // Update project on disk based on ID
 func (d *Disk) Update(id string, project *models.Project) (*models.Project, error) {
 	currentProject, _ := d.Read(id)
-	if currentProject.Revision > project.Revision {
-		err := errors.New("project on disk is newer, please update your local storage")
+
+	if currentProject.Revision != project.Revision-1 {
+		err := errors.New("project revision should be incremented by 1")
 		return nil, err
 	}
 

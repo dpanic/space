@@ -5,6 +5,7 @@ Agnostic API built in Go Lang, made for purposes of test building blocks.
 
 You should set .envrc and .aws_credentials
 
+
 ## Flow
 * Create project, you receive ID based on project name
 * Update project by ID with height_plateaus and building_limits data
@@ -14,19 +15,19 @@ You should set .envrc and .aws_credentials
 ## Architecture
 Client -> ALB -> ECS -> Docker
 
-ALB: App Load Balancer (SSL/TLS termination)
-ECS: Elastic Cloud Service (3 instances, with auto scaling) 
-Docker (Go Binary) + NFS (AWS EFS)
+* ALB: App Load Balancer (SSL/TLS termination)
+* ECS: Elastic Cloud Service (3 instances, with auto scaling)
+* Docker (Go Binary) + NFS (AWS EFS)
 
 
 ## Features
 * Init of basic project
 * REST API 
-    + Create:     POST /projects
-    Update:     PUT /projects/:id
-    + Read:       GET /projects/:id
-    + Delete:     DELETE /projects/:id
-    + Read all:   GET /projects/
+    * Create:     POST /projects
+    * Read:       GET /projects/:id
+    * Update:     PUT /projects/:id
+    * Delete:     DELETE /projects/:id
+    * Read all:   GET /projects/
     
 * Persistent storage adapters (disk, extensible to s3 etc.)
 * Create deploy to ECS

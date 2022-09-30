@@ -10,7 +10,7 @@ type GeoJSONFeature struct {
 	Type       string                 `json:"type"`
 	Properties map[string]interface{} `json:"properties"`
 	Geometry   struct {
-		Type        string      `json:"type"`
-		Coordinates [][]float64 `json:"coordinates"`
+		Type        string        `json:"type"`
+		Coordinates [][][]float64 `json:"coordinates"`
 	} `json:"geometry"`
 }

@@ -18,14 +18,6 @@ type Project struct {
 	_ struct{} `type:"structure"`
 }
 
-type ProjectShort struct {
-	Id        string    `json:"id"`
-	Name      string    `json:"name"`
-	Revision  int       `json:"revision"`
-	UpdatedAt time.Time `json:"updated_at"`
-	CreatedAt time.Time `json:"created_at"`
-}
-
 type Data struct {
 	BuildingLimits GeoJSONFeatureCollection `json:"building_limits"`
 	HeighPlateaus  GeoJSONFeatureCollection `json:"heigh_plateaus"`

@@ -7,156 +7,200 @@
 	},
 	"item": [
 		{
-			"name": "DEV: Create",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "maker",
-							"type": "string"
+			"name": "DEVELOPMENT",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "maker",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "space",
+									"type": "string"
+								}
+							]
 						},
-						{
-							"key": "username",
-							"value": "space",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"test\"\n}"
-				},
-				"url": {
-					"raw": "https://localhost:9000/projects",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"projects"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DEV: Read",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "maker",
-							"type": "string"
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\"\n}"
 						},
-						{
-							"key": "username",
-							"value": "space",
-							"type": "string"
+						"url": {
+							"raw": "https://localhost:9000/projects",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"projects"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"test\"\n}"
-				},
-				"url": {
-					"raw": "https://localhost:9000/projects",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"projects"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DEV: List",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "maker",
-							"type": "string"
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "maker",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "space",
+									"type": "string"
+								}
+							]
 						},
-						{
-							"key": "username",
-							"value": "space",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"test\"\n}"
-				},
-				"url": {
-					"raw": "https://localhost:9000/projects",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"projects"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DEV: Delete",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "maker",
-							"type": "string"
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n        \"id\": \"9f86d081\",\n        \"name\": \"test\",\n        \"data\": {\n            \"building_limits\": {\n                \"type\": \"Polygon\",\n                \"features\": {\n                    \"type\": \"\",\n                    \"properties\": null,\n                    \"geometry\": {\n                        \"type\": \"\",\n                        \"coordinates\": [\n          [\n            [\n              46.7578125,\n              59.355596110016315\n            ],\n            [\n              66.796875,\n              59.355596110016315\n            ],\n            [\n              66.796875,\n              63.074865690586634\n            ],\n            [\n              46.7578125,\n              63.074865690586634\n            ],\n            [\n              46.7578125,\n              59.355596110016315\n            ]\n          ]\n        ]\n                    }\n                }\n            },\n            \"heigh_plateaus\": {\n                \"type\": \"Polygon\",\n                \"features\": {\n                    \"type\": \"\",\n                    \"properties\": null,\n                    \"geometry\": {\n                        \"type\": \"\",\n                        \"coordinates\": null\n                    }\n                }\n            }\n        },\n        \"revision\": 1,\n        \"updated_at\": \"0001-01-01T00:00:00Z\",\n        \"created_at\": \"2022-09-29T22:49:39.401785973+02:00\"\n}"
 						},
-						{
-							"key": "username",
-							"value": "space",
-							"type": "string"
+						"url": {
+							"raw": "https://localhost:9000/projects/9f86d081",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"projects",
+								"9f86d081"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"test\"\n}"
+				{
+					"name": "Read",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "maker",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "space",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:9000/projects",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "https://localhost:9000/projects",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"projects"
-					]
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "maker",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "space",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:9000/projects",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "maker",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "space",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:9000/projects",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }
