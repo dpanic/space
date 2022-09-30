@@ -5,6 +5,7 @@ import (
 	"space/backend/logic"
 	"space/lib/logger"
 	"space/lib/server"
+	"space/lib/server/middlewares"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -21,6 +22,7 @@ func readHandler(ctx *gin.Context) {
 	defer func() {
 		response(ctx, sErrors, res, "read")
 	}()
+	defer middlewares.MiddlewareRecovery(ctx)
 
 	var (
 		id       = ctx.Param("id")
@@ -62,5 +64,6 @@ func readHandler(ctx *gin.Context) {
 
 func init() {
 	server.Authorized.Handle("GET", "/projects/:id", readHandler)
+
 	server.Authorized.Handle("GET", "/projects", readHandler)
 }

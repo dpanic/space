@@ -1,6 +1,7 @@
 package hooks
 
 import (
+	"errors"
 	"fmt"
 	"space/backend/models"
 	"space/backend/storages"
@@ -8,13 +9,11 @@ import (
 	serverAction "space/lib/server/action"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	"go.uber.org/zap"
 )
 
 // use a single instance of Validate, it caches struct info
 var (
-	validate       = validator.New()
 	storage        *storages.Storage
 	desiredStorage = "disk"
 )
@@ -35,6 +34,12 @@ func response(ctx *gin.Context, sErrors []error, res interface{}, action string)
 	var (
 		response Response
 	)
+
+	trace := ctx.GetString("trace")
+	if trace != "" {
+		err := errors.New("internal server error happened. check logs")
+		sErrors = append(sErrors, err)
+	}
 
 	if len(sErrors) > 0 {
 		var (

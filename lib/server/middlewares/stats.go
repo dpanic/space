@@ -10,8 +10,11 @@ import (
 
 func Stats() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		ip := ctx.ClientIP()
-		id := ctx.GetString("id")
+		var (
+			ip      = ctx.ClientIP()
+			id      = ctx.GetString("id")
+			tsStart = time.Now()
+		)
 
 		log := logger.Log.WithOptions(zap.Fields(
 			zap.String("id", id),
@@ -22,9 +25,6 @@ func Stats() gin.HandlerFunc {
 		)
 
 		log.Debug("request started")
-
-		tsStart := time.Now()
-		defer middlewareRecovery()
 		ctx.Next()
 
 		log.Debug("request finished",

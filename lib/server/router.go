@@ -19,16 +19,15 @@ func init() {
 		user: pass,
 	}))
 
-	// Define and set request ID
-	Router.Use(func(ctx *gin.Context) {
+	Authorized.Use(func(ctx *gin.Context) {
 		id, _ := crypto.UUID()
 		ctx.Set("id", id)
 		ctx.Next()
 	})
 
-	Router.Use(middlewares.Stats())
-	Router.Use(middlewares.NoCache())
-	Router.Use(middlewares.Session())
-	Router.Use(middlewares.CORS())
-	Router.Use(middlewares.Security())
+	Authorized.Use(middlewares.Stats())
+	Authorized.Use(middlewares.NoCache())
+	Authorized.Use(middlewares.Session())
+	Authorized.Use(middlewares.CORS())
+	Authorized.Use(middlewares.Security())
 }

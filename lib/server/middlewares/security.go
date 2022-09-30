@@ -7,8 +7,6 @@ import (
 // Security will inject HTTP headers related to security
 func Security() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		defer middlewareRecovery()
-
 		ctx.Writer.Header().Set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload")
 		ctx.Writer.Header().Set("X-Frame-Options", "SAMEORIGIN")
 		ctx.Writer.Header().Set("X-Content-Type-Options", "nosniff")

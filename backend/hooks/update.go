@@ -6,6 +6,7 @@ import (
 	"space/backend/models"
 	"space/lib/logger"
 	"space/lib/server"
+	"space/lib/server/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,16 +23,17 @@ func updateHandler(ctx *gin.Context) {
 	defer func() {
 		response(ctx, sErrors, res, "update")
 	}()
+	defer middlewares.MiddlewareRecovery(ctx)
 
-	id := ctx.Param("id")
-	if id == "" {
-		err := errors.New("id is empty")
+	err := ctx.ShouldBind(&newProject)
+	if err != nil {
 		sErrors = append(sErrors, err)
 		return
 	}
 
-	err := ctx.ShouldBind(&newProject)
-	if err != nil {
+	id := ctx.Param("id")
+	if id == "" {
+		err := errors.New("id is empty")
 		sErrors = append(sErrors, err)
 		return
 	}

@@ -5,6 +5,7 @@ import (
 	"os"
 	"space/lib/server"
 	serverAction "space/lib/server/action"
+	"space/lib/server/middlewares"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -32,6 +33,8 @@ type HealthResponse struct {
 }
 
 func healthHandler(ctx *gin.Context) {
+	defer middlewares.MiddlewareRecovery(ctx)
+
 	ctx.Status(200)
 
 	res := HealthResponse{

@@ -3,6 +3,7 @@ package hooks
 import (
 	"space/lib/logger"
 	"space/lib/server"
+	"space/lib/server/middlewares"
 
 	"errors"
 	"fmt"
@@ -22,6 +23,7 @@ func deleteHandler(ctx *gin.Context) {
 	defer func() {
 		response(ctx, sErrors, res, "delete")
 	}()
+	defer middlewares.MiddlewareRecovery(ctx)
 
 	id = ctx.Param("id")
 	if id == "" {

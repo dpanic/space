@@ -5,6 +5,7 @@ import (
 	"space/backend/models"
 	"space/lib/logger"
 	"space/lib/server"
+	"space/lib/server/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,7 +22,9 @@ func createHandler(ctx *gin.Context) {
 	defer func() {
 		response(ctx, sErrors, res, "create")
 	}()
+	defer middlewares.MiddlewareRecovery(ctx)
 
+	// initial error, which is removed later
 	err := ctx.ShouldBind(&project)
 	if err != nil {
 		sErrors = append(sErrors, err)
