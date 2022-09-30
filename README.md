@@ -37,12 +37,11 @@ Client -> ALB -> ECS -> Docker
     * APP Load Balancer handling HTTPS termination with valid SSL/TLS Certificate
     * Attach EFS disk to 3 instances
 
-* Implement logic - 2h %
 * Concurrent access
 * HTTP Basic Auth
-* Create Postman Collection for DEVELOPMENT
-* Create Postman Collection for PRODUCTION %
+* Create Postman Collection for DEVELOPMENT and PRODUCTION
 * API shows version and last built time, uptime of service
+* Implement logic - 2h %
 * Create Unit Tests - 1h % 
 
 

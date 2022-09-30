@@ -11,6 +11,9 @@
 			"item": [
 				{
 					"name": "Create",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -28,18 +31,23 @@
 							]
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"test\"\n}"
+							"raw": "{\n    \"name\": \"test2\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:9000/projects",
+							"raw": "https://{{DEVELOPMENT}}/projects",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{DEVELOPMENT}}"
 							],
-							"port": "9000",
 							"path": [
 								"projects"
 							]
@@ -49,6 +57,11 @@
 				},
 				{
 					"name": "Update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -66,18 +79,23 @@
 							]
 						},
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n        \"id\": \"9f86d081\",\n        \"name\": \"test\",\n        \"data\": {\n            \"building_limits\": {\n                \"type\": \"Polygon\",\n                \"features\": {\n                    \"type\": \"\",\n                    \"properties\": null,\n                    \"geometry\": {\n                        \"type\": \"\",\n                        \"coordinates\": [\n          [\n            [\n              46.7578125,\n              59.355596110016315\n            ],\n            [\n              66.796875,\n              59.355596110016315\n            ],\n            [\n              66.796875,\n              63.074865690586634\n            ],\n            [\n              46.7578125,\n              63.074865690586634\n            ],\n            [\n              46.7578125,\n              59.355596110016315\n            ]\n          ]\n        ]\n                    }\n                }\n            },\n            \"heigh_plateaus\": {\n                \"type\": \"Polygon\",\n                \"features\": {\n                    \"type\": \"\",\n                    \"properties\": null,\n                    \"geometry\": {\n                        \"type\": \"\",\n                        \"coordinates\": null\n                    }\n                }\n            }\n        },\n        \"revision\": 1,\n        \"updated_at\": \"0001-01-01T00:00:00Z\",\n        \"created_at\": \"2022-09-29T22:49:39.401785973+02:00\"\n}"
+							"raw": "{\n    \"id\": \"9f86d081\",\n    \"name\": \"test\",\n    \"data\": {\n        \"building_limits\": {\n            \"type\": \"FeatureCollection\",\n            \"features\": {\n                \"type\": \"Feature\",\n                \"properties\": null,\n                \"geometry\": {\n                    \"type\": \"Polygon\",\n                    \"coordinates\": [\n                        [\n                            [\n                                46.7578125,\n                                59.355596110016315\n                            ],\n                            [\n                                66.796875,\n                                59.355596110016315\n                            ],\n                            [\n                                66.796875,\n                                63.074865690586634\n                            ],\n                            [\n                                46.7578125,\n                                63.074865690586634\n                            ],\n                            [\n                                46.7578125,\n                                59.355596110016315\n                            ]\n                        ]\n                    ]\n                }\n            }\n        },\n        \"heigh_plateaus\": {\n            \"type\": \"FeatureCollection\",\n            \"features\": {\n                \"type\": \"Feature\",\n                \"properties\": null,\n                \"geometry\": {\n                    \"type\": \"Polygon\",\n                    \"coordinates\": [\n                        [\n                            [\n                                57.216796875,\n                                65.80277639340238\n                            ],\n                            [\n                                64.775390625,\n                                65.80277639340238\n                            ],\n                            [\n                                64.775390625,\n                                67.33986082559095\n                            ],\n                            [\n                                57.216796875,\n                                67.33986082559095\n                            ],\n                            [\n                                57.216796875,\n                                65.80277639340238\n                            ]\n                        ]\n                    ]\n                }\n            }\n        }\n    },\n    \"revision\": 2\n}"
 						},
 						"url": {
-							"raw": "https://localhost:9000/projects/9f86d081",
+							"raw": "https://{{DEVELOPMENT}}/projects/9f86d081",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{DEVELOPMENT}}"
 							],
-							"port": "9000",
 							"path": [
 								"projects",
 								"9f86d081"
@@ -104,21 +122,17 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"test\"\n}"
-						},
 						"url": {
-							"raw": "https://localhost:9000/projects",
+							"raw": "https://{{DEVELOPMENT}}/projects/9f86d081",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{DEVELOPMENT}}"
 							],
-							"port": "9000",
 							"path": [
-								"projects"
+								"projects",
+								"9f86d081"
 							]
 						}
 					},
@@ -142,19 +156,14 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"test\"\n}"
-						},
 						"url": {
-							"raw": "https://localhost:9000/projects",
+							"raw": "https://{{DEVELOPMENT}}/projects",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{DEVELOPMENT}}"
 							],
-							"port": "9000",
 							"path": [
 								"projects"
 							]
@@ -180,27 +189,278 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"test\"\n}"
-						},
 						"url": {
-							"raw": "https://localhost:9000/projects",
+							"raw": "https://{{DEVELOPMENT}}/projects/9f86d081",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{DEVELOPMENT}}"
 							],
-							"port": "9000",
 							"path": [
-								"projects"
+								"projects",
+								"9f86d081"
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "PRODUCTION",
+			"item": [
+				{
+					"name": "Create",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "maker",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "space",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\"\n}"
+						},
+						"url": {
+							"raw": "https://{{PRODUCTION}}/projects",
+							"protocol": "https",
+							"host": [
+								"{{PRODUCTION}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "maker",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "space",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n        \"id\": \"9f86d081\",\n        \"name\": \"test\",\n        \"data\": {\n            \"building_limits\": {\n                \"type\": \"Polygon\",\n                \"features\": {\n                    \"type\": \"\",\n                    \"properties\": null,\n                    \"geometry\": {\n                        \"type\": \"\",\n                        \"coordinates\": [\n          [\n            [\n              46.7578125,\n              59.355596110016315\n            ],\n            [\n              66.796875,\n              59.355596110016315\n            ],\n            [\n              66.796875,\n              63.074865690586634\n            ],\n            [\n              46.7578125,\n              63.074865690586634\n            ],\n            [\n              46.7578125,\n              59.355596110016315\n            ]\n          ]\n        ]\n                    }\n                }\n            },\n            \"heigh_plateaus\": {\n                \"type\": \"Polygon\",\n                \"features\": {\n                    \"type\": \"\",\n                    \"properties\": null,\n                    \"geometry\": {\n                        \"type\": \"\",\n                        \"coordinates\": null\n                    }\n                }\n            }\n        },\n        \"revision\": 2,\n        \"updated_at\": \"0001-01-01T00:00:00Z\",\n        \"created_at\": \"2022-09-29T22:49:39.401785973+02:00\"\n}"
+						},
+						"url": {
+							"raw": "https://{{PRODUCTION}}/projects/9f86d081",
+							"protocol": "https",
+							"host": [
+								"{{PRODUCTION}}"
+							],
+							"path": [
+								"projects",
+								"9f86d081"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "maker",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "space",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\"\n}"
+						},
+						"url": {
+							"raw": "https://{{PRODUCTION}}/projects/9f86d081",
+							"protocol": "https",
+							"host": [
+								"{{PRODUCTION}}"
+							],
+							"path": [
+								"projects",
+								"9f86d081"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "maker",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "space",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{PRODUCTION}}/projects",
+							"protocol": "https",
+							"host": [
+								"{{PRODUCTION}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "maker",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "space",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\"\n}"
+						},
+						"url": {
+							"raw": "https://{{PRODUCTION}}/projects/9f86d081",
+							"protocol": "https",
+							"host": [
+								"{{PRODUCTION}}"
+							],
+							"path": [
+								"projects",
+								"9f86d081"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "DEVELOPMENT",
+			"value": "localhost:9000"
+		},
+		{
+			"key": "PRODUCTION",
+			"value": "space.6og.net"
 		}
 	]
 }
