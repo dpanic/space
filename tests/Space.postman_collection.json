@@ -204,6 +204,53 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create Error",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "maker",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "space",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\"\n}"
+						},
+						"url": {
+							"raw": "https://{{PRODUCTION}}/projects",
+							"protocol": "https",
+							"host": [
+								"{{PRODUCTION}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -239,6 +286,53 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\"\n}"
+						},
+						"url": {
+							"raw": "https://{{PRODUCTION}}/projects",
+							"protocol": "https",
+							"host": [
+								"{{PRODUCTION}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Error",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "maker",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "space",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
