@@ -5,7 +5,7 @@ import "time"
 //go:generate easytags $GOFILE json:snake
 type Project struct {
 	Id        string    `json:"id"`
-	Name      string    `json:"name" validate:"required"`
+	Name      string    `json:"name"`
 	Data      *Data     `json:"data,omitempty"`
 	Revision  int       `json:"revision"`
 	UpdatedAt time.Time `json:"updated_at"`

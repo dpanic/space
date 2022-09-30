@@ -2,6 +2,7 @@ package hooks
 
 import (
 	"errors"
+	"space/backend/logic"
 	"space/backend/models"
 	"space/lib/logger"
 	"space/lib/server"
@@ -12,9 +13,9 @@ import (
 // updateHandler is handling API calls
 func updateHandler(ctx *gin.Context) {
 	var (
-		sErrors = make([]error, 0)
-		res     interface{}
-		project models.Project
+		sErrors    = make([]error, 0)
+		res        interface{}
+		newProject *models.Project
 	)
 
 	logger.Log.Debug("attempt to update project")
@@ -29,20 +30,28 @@ func updateHandler(ctx *gin.Context) {
 		return
 	}
 
-	err := ctx.ShouldBind(&project)
+	err := ctx.ShouldBind(&newProject)
 	if err != nil {
 		sErrors = append(sErrors, err)
 		return
 	}
 
-	_, err = (*storage).Read(id)
+	currentProject, err := (*storage).Read(id)
 	if err != nil {
 		err = errors.New("project doesn't exist")
 		sErrors = append(sErrors, err)
 		return
 	}
 
-	updatedProject, err := (*storage).Update(id, &project)
+	// execute logic
+	updatedProject, err := logic.Update(currentProject, newProject)
+	if err != nil {
+		sErrors = append(sErrors, err)
+		return
+	}
+
+	// update storage
+	_, err = (*storage).Update(id, updatedProject)
 	if err != nil {
 		sErrors = append(sErrors, err)
 		return

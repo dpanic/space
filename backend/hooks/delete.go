@@ -30,7 +30,14 @@ func deleteHandler(ctx *gin.Context) {
 		return
 	}
 
-	err := (*storage).Delete(id)
+	_, err := (*storage).Read(id)
+	if err != nil {
+		err = errors.New("project doesn't exist")
+		sErrors = append(sErrors, err)
+		return
+	}
+
+	err = (*storage).Delete(id)
 	if err != nil {
 		wErr := fmt.Errorf("error in deleting project: %s", err.Error())
 		sErrors = append(sErrors, wErr)

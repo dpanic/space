@@ -1,6 +1,8 @@
 package hooks
 
 import (
+	"errors"
+	"space/backend/logic"
 	"space/lib/logger"
 	"space/lib/server"
 
@@ -20,20 +22,31 @@ func readHandler(ctx *gin.Context) {
 		response(ctx, sErrors, res, "read")
 	}()
 
-	id := ctx.Param("id")
-	if id != "" {
+	var (
+		id       = ctx.Param("id")
+		readType = "single"
+	)
+	if id == "" {
+		readType = "multiple"
+	}
+
+	switch readType {
+	case "single":
+		// read single result
 		logger.Log.Debug("reading project",
 			zap.String("id", id),
 		)
 
 		obj, err := (*storage).Read(id)
 		if err != nil {
+			err = errors.New("project doesn't exist")
 			sErrors = append(sErrors, err)
 			return
 		}
 		res = obj
 
-	} else {
+	case "multiple":
+		// read multiple projects
 		logger.Log.Debug("reading multiple projects")
 
 		results, err := (*storage).List()
@@ -41,6 +54,8 @@ func readHandler(ctx *gin.Context) {
 			sErrors = append(sErrors, err)
 			return
 		}
+
+		logic.List(results)
 		res = results
 	}
 }

@@ -3,11 +3,11 @@ package storages
 import "space/backend/models"
 
 type Storage interface {
-	Create(name string) (id string, err error)
-	Delete(id string) (err error)
-	Read(id string) (object *models.Project, err error)
-	Update(id string, data *models.Project) (object *models.Project, err error)
-	List() (objects []*models.Project, err error)
+	Create(project *models.Project) error
+	Delete(id string) error
+	Read(id string) (*models.Project, error)
+	Update(id string, project *models.Project) (*models.Project, error)
+	List() ([]*models.Project, error)
 }
 
 var (

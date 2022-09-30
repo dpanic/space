@@ -6,8 +6,6 @@ import (
 	"os"
 	"path/filepath"
 	"space/backend/models"
-	"space/lib/crypto"
-	"time"
 )
 
 type Disk struct {
@@ -21,11 +19,8 @@ func NewDisk(rootDir string) *Disk {
 }
 
 // Create create project on disk based on it's name
-func (d *Disk) Create(name string) (id string, err error) {
-	// uuid, err := crypto.UUID()
-	id = crypto.SHA256(name)[0:8]
-
-	projectPath := d.getProjectPath(id)
+func (d *Disk) Create(project *models.Project) (err error) {
+	projectPath := d.getProjectPath(project.Id)
 
 	stat, _ := os.Stat(projectPath)
 	if stat != nil {
@@ -40,12 +35,6 @@ func (d *Disk) Create(name string) (id string, err error) {
 
 	fileLoc := filepath.Join(projectPath, "data")
 
-	project := models.Project{
-		Id:        id,
-		Name:      name,
-		Revision:  1,
-		CreatedAt: time.Now(),
-	}
 	raw, _ := json.MarshalIndent(project, "", "\t")
 	os.WriteFile(fileLoc, raw, 0755)
 
@@ -80,7 +69,6 @@ func (d *Disk) List() (objects []*models.Project, err error) {
 			project.Error = err
 		}
 
-		project.Data = nil
 		objects = append(objects, project)
 	}
 
@@ -93,30 +81,19 @@ func (d *Disk) getProjectPath(id string) (projectPath string) {
 }
 
 // Update project on disk based on ID
-func (d *Disk) Update(id string, project *models.Project) (*models.Project, error) {
-	currentProject, _ := d.Read(id)
-
-	if currentProject.Revision != project.Revision-1 {
-		err := errors.New("project revision should be incremented by 1")
-		return nil, err
-	}
-
+func (d *Disk) Update(id string, updatedProject *models.Project) (*models.Project, error) {
 	fileLoc := filepath.Join(d.getProjectPath(id), "data")
 
-	currentProject.Data = project.Data
-	currentProject.Revision++
-	currentProject.UpdatedAt = time.Now()
-
-	raw, _ := json.MarshalIndent(currentProject, "", "\t")
+	raw, _ := json.MarshalIndent(updatedProject, "", "\t")
 	err := os.WriteFile(fileLoc, raw, 0755)
 
-	return currentProject, err
+	return updatedProject, err
 }
 
 // Delete project on disk by ID
 func (d *Disk) Delete(id string) (err error) {
 	projectPath := filepath.Join(d.RootDir, id)
-	err = os.Remove(projectPath)
+	err = os.RemoveAll(projectPath)
 
 	return
 }
