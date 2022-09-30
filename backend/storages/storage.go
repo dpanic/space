@@ -6,7 +6,7 @@ type Storage interface {
 	Create(name string) (id string, err error)
 	Delete(id string) (err error)
 	Read(id string) (object *models.Project, err error)
-	Update(id string, data *models.Data) (err error)
+	Update(id string, data *models.Project) (object *models.Project, err error)
 	List() (objects []*models.Project, err error)
 }
 

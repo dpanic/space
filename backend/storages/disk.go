@@ -8,6 +8,7 @@ import (
 	"space/backend/models"
 	"space/lib/crypto"
 	"sync"
+	"time"
 )
 
 type Disk struct {
@@ -27,7 +28,8 @@ func (d *Disk) Create(name string) (id string, err error) {
 	// uuid, err := crypto.UUID()
 	id = crypto.SHA256(name)[0:8]
 
-	projectPath := filepath.Join(d.RootDir, id)
+	projectPath := d.getProjectPath(id)
+
 	stat, _ := os.Stat(projectPath)
 	if stat != nil {
 		err = errors.New("project already exist")
@@ -42,9 +44,10 @@ func (d *Disk) Create(name string) (id string, err error) {
 	fileLoc := filepath.Join(projectPath, "data")
 
 	project := models.Project{
-		Id:       id,
-		Name:     name,
-		Revision: 1,
+		Id:        id,
+		Name:      name,
+		Revision:  1,
+		CreatedAt: time.Now(),
 	}
 	raw, _ := json.MarshalIndent(project, "", "\t")
 	os.WriteFile(fileLoc, raw, 0755)
@@ -80,15 +83,36 @@ func (d *Disk) List() (objects []*models.Project, err error) {
 			project.Error = err
 		}
 
+		project.Data = nil
 		objects = append(objects, project)
 	}
 
 	return
 }
 
-// Update project on disk based on ID
-func (d *Disk) Update(id string, data *models.Data) (err error) {
+func (d *Disk) getProjectPath(id string) (projectPath string) {
+	projectPath = filepath.Join(d.RootDir, id)
 	return
+}
+
+// Update project on disk based on ID
+func (d *Disk) Update(id string, project *models.Project) (*models.Project, error) {
+	currentProject, _ := d.Read(id)
+	if currentProject.Revision > project.Revision {
+		err := errors.New("project on disk is newer, please update your local storage")
+		return nil, err
+	}
+
+	fileLoc := filepath.Join(d.getProjectPath(id), "data")
+
+	currentProject.Data = project.Data
+	currentProject.Revision++
+	currentProject.UpdatedAt = time.Now()
+
+	raw, _ := json.MarshalIndent(currentProject, "", "\t")
+	err := os.WriteFile(fileLoc, raw, 0755)
+
+	return currentProject, err
 }
 
 // Delete project on disk by ID

@@ -13,12 +13,13 @@ import (
 func updateHandler(ctx *gin.Context) {
 	var (
 		sErrors = make([]error, 0)
+		res     interface{}
 		project models.Project
 	)
 
 	logger.Log.Debug("attempt to update project")
 	defer func() {
-		response(ctx, sErrors, nil, "update")
+		response(ctx, sErrors, res, "update")
 	}()
 
 	id := ctx.Param("id")
@@ -41,11 +42,13 @@ func updateHandler(ctx *gin.Context) {
 		return
 	}
 
-	err = (*storage).Update(id, &project.Data)
+	updatedProject, err := (*storage).Update(id, &project)
 	if err != nil {
 		sErrors = append(sErrors, err)
 		return
 	}
+
+	res = updatedProject
 }
 
 func init() {

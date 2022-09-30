@@ -2,6 +2,7 @@ package hooks
 
 import (
 	"fmt"
+	"space/backend/models"
 	"space/backend/storages"
 	"space/lib/logger"
 	serverAction "space/lib/server/action"
@@ -25,8 +26,8 @@ func Bind() {
 type Response struct {
 	Status  bool        `json:"status"`
 	Message string      `json:"message"`
-	Results interface{} `json:"results"`
 	Total   int         `json:"total"`
+	Results interface{} `json:"results"`
 	Errors  []string    `json:"errors,omitempty"`
 }
 
@@ -66,6 +67,21 @@ func response(ctx *gin.Context, sErrors []error, res interface{}, action string)
 		response.Status = true
 		response.Message = msg
 		response.Results = res
+
+		total := 0
+		switch res := res.(type) {
+		case []interface{}:
+			total = len(res)
+
+		case []string:
+			total = len(res)
+
+		case []*models.Project:
+			total = len(res)
+		}
+
+		response.Total = total
+
 	}
 
 	serverAction.Response(ctx, response)

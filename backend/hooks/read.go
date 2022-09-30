@@ -1,7 +1,6 @@
 package hooks
 
 import (
-	"fmt"
 	"space/lib/logger"
 	"space/lib/server"
 
@@ -42,8 +41,6 @@ func readHandler(ctx *gin.Context) {
 			sErrors = append(sErrors, err)
 			return
 		}
-
-		fmt.Println(1)
 		res = results
 	}
 }

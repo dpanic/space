@@ -1,9 +1,22 @@
 # SPACE PROJECT
+[![Go Report Card](https://goreportcard.com/badge/github.com/dpanic/space)](https://goreportcard.com/report/github.com/dpanic/space)
+
 Agnostic API built in Go Lang, made for purposes of test building blocks.
 
 You should set .envrc and .aws_credentials
 
-aws ecs stop-task --cluster "${CLUSTER}" --task $(aws ecs list-tasks --cluster "${CLUSTER}" --service "${SERVICE}" --output text --query "taskArns[0]")
+## Flow
+* Create project, you receive ID based on project name
+* Update project by ID with height_plateaus and building_limits data
+* System will calculate split_building_limits and save it to disk
+* Revision of data will be increased, in order to prevent overwriting each others data
+
+## Architecture
+Client -> ALB -> ECS -> Docker
+
+ALB: App Load Balancer (SSL/TLS termination)
+ECS: Elastic Cloud Service (3 instances, with auto scaling) 
+Docker (Go Binary) + NFS (AWS EFS)
 
 
 ## Features
@@ -24,22 +37,20 @@ aws ecs stop-task --cluster "${CLUSTER}" --task $(aws ecs list-tasks --cluster "
     * Attach EFS disk to 3 instances
 
 * Implement logic - 2h %
-* Concurrent access - 2h %
+* Concurrent access
 * HTTP Basic Auth
-* Create Unit Tests - 1h % 
 * Create Postman Collection for DEVELOPMENT
-* Create Postman Collection for PRODUCTIOn
+* Create Postman Collection for PRODUCTION %
+* API shows version and last built time, uptime of service
+* Create Unit Tests - 1h % 
 
-
-## Flow
-* Create project, you receive ID based on project name
-* Update project by ID with height_plateaus and building_limits data
-* System will calculate split_building_limits and save it to disk
-* Revision of data will be increased, in order to prevent overwriting each others data
 
 ## Build
 ```make build```
 
 ## Deploy
 ```make deploy```
+
+## Run
+```make run```
 
