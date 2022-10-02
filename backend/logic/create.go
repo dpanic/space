@@ -20,6 +20,17 @@ func Create(name string) (project *models.Project, err error) {
 		Name:      name,
 		Revision:  1,
 		CreatedAt: time.Now(),
+		Data: &models.Data{
+			BuildingLimits: &models.GeoJSONFeatureCollection{
+				Features: make([]*models.GeoJSONFeature, 0),
+			},
+			HeighPlateaus: &models.GeoJSONFeatureCollection{
+				Features: make([]*models.GeoJSONFeature, 0),
+			},
+			BuildingSplits: &models.GeoJSONFeatureCollection{
+				Features: make([]*models.GeoJSONFeature, 0),
+			},
+		},
 	}
 
 	return

@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"space/backend/models"
@@ -24,27 +25,56 @@ var tests = []test{
 		},
 		HeighPlateaus: []map[string]interface{}{
 			{
-				"elevation": 10,
+				"elevation": float64(10),
 				"coordinates": [][]float64{
 					{0.0, 40.0}, {60.0, 40.0}, {60.0, 60.0}, {0.0, 60.0}, {0.0, 40.0},
 				},
 			},
-			// {
-			// 	"elevation": 20,
-			// 	"coordinates": [][]float64{
-			// 		{0.0, 20.0}, {60.0, 20.0}, {60.0, 40.0}, {0.0, 40.0}, {0.0, 20.0},
-			// 	},
-			// },
 			{
-				"elevation": 30,
+				"elevation": float64(20),
+				"coordinates": [][]float64{
+					{0.0, 20.0}, {60.0, 20.0}, {60.0, 40.0}, {0.0, 40.0}, {0.0, 20.0},
+				},
+			},
+			{
+				"elevation": float64(30),
 				"coordinates": [][]float64{
 					{0.0, 0.0}, {60.0, 0.0}, {60.0, 20.0}, {0.0, 20.0}, {0.0, 0.0},
 				},
 			},
 		},
 		Wants: wants{
-			Matched:   2,
-			Unmatched: 1,
+			Matched: 3,
+		},
+	},
+
+	{
+		BuildingLimits: [][]float64{
+			{0.0, 40.0}, {60.0, 40.0}, {60.0, 60.0}, {0.0, 60.0}, {0.0, 40.0},
+		},
+		HeighPlateaus: []map[string]interface{}{
+			{
+				"elevation": float64(10),
+				"coordinates": [][]float64{
+					{0.0, 40.0}, {60.0, 40.0}, {60.0, 60.0}, {0.0, 60.0}, {0.0, 40.0},
+				},
+			},
+			{
+				"elevation": float64(20),
+				"coordinates": [][]float64{
+					{0.0, 20.0}, {60.0, 20.0}, {60.0, 40.0}, {0.0, 40.0}, {0.0, 20.0},
+				},
+			},
+			{
+				"elevation": float64(30),
+				"coordinates": [][]float64{
+					{0.0, 0.0}, {60.0, 0.0}, {60.0, 20.0}, {0.0, 20.0}, {0.0, 0.0},
+				},
+			},
+		},
+		Wants: wants{
+			Matched:   1,
+			Unmatched: 2,
 		},
 	},
 
@@ -54,26 +84,27 @@ var tests = []test{
 		},
 		HeighPlateaus: []map[string]interface{}{
 			{
-				"elevation": 10,
+				"elevation": float64(10),
 				"coordinates": [][]float64{
 					{0.0, 40.0}, {60.0, 40.0}, {60.0, 60.0}, {0.0, 60.0}, {0.0, 40.0},
 				},
 			},
+			// {
+			// 	"elevation": float64(20),
+			// 	"coordinates": [][]float64{
+			// 		{0.0, 20.0}, {60.0, 20.0}, {60.0, 40.0}, {0.0, 40.0}, {0.0, 20.0},
+			// 	},
+			// },
 			{
-				"elevation": 20,
-				"coordinates": [][]float64{
-					{0.0, 20.0}, {60.0, 20.0}, {60.0, 40.0}, {0.0, 40.0}, {0.0, 20.0},
-				},
-			},
-			{
-				"elevation": 30,
+				"elevation": float64(30),
 				"coordinates": [][]float64{
 					{0.0, 0.0}, {60.0, 0.0}, {60.0, 20.0}, {0.0, 20.0}, {0.0, 0.0},
 				},
 			},
 		},
 		Wants: wants{
-			Matched: 3,
+			Matched:   2,
+			Unmatched: 1,
 		},
 	},
 }
@@ -89,7 +120,10 @@ func TestSplits(t *testing.T) {
 		project.Data.Populate()
 
 		raw := project.Data.Draw()
-		os.WriteFile(fmt.Sprintf("splits_%d.json", idx), raw, 0755)
+		os.WriteFile(fmt.Sprintf("tmp/splits_%d.json", idx), raw, 0755)
+
+		raw, _ = json.MarshalIndent(project, "", "\t")
+		os.WriteFile(fmt.Sprintf("tmp/project_%d.json", idx), raw, 0755)
 
 		var (
 			matched   int
@@ -113,6 +147,10 @@ func TestSplits(t *testing.T) {
 			t.Errorf("Wanted 'unmatched' == %d, got %d.\n", tests[idx].Wants.Unmatched, unmatched)
 		}
 	}
+}
+
+func init() {
+	os.MkdirAll("tmp", 0755)
 }
 
 func getProject(index int) (project models.Project) {

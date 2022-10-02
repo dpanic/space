@@ -44,7 +44,7 @@ func Splits(project *models.Project) (buildingSplits []*models.GeoJSONFeature) {
 					zap.Any("heighPlateaus", hl.Geometry),
 					zap.Any("difference", differenceB),
 					zap.Any("intersection", intersection),
-					zap.Int("elevation", hl.Properties["elevation"].(int)),
+					zap.Float64("elevation", hl.Properties["elevation"].(float64)),
 				))
 				log.Info("matched building limit and heigh plateaus")
 

@@ -46,18 +46,16 @@ func Update(currentProject, newProject *models.Project) (updatedProject *models.
 	}
 
 	// perform building splits
-	updatedProject.Data.BuildingSplits.Features = Splits(updatedProject)
+	newProject.Data.BuildingSplits.Features = Splits(newProject)
 
 	// add colors and names to geojson
-	updatedProject.Data.Populate()
+	newProject.Data.Populate()
 
 	// update data
 	updatedProject = currentProject
 	updatedProject.Data = newProject.Data
 	updatedProject.Revision++
 	updatedProject.UpdatedAt = time.Now()
-
-	updatedProject = currentProject
 
 	return
 }
