@@ -31,6 +31,16 @@ Client -> ALB -> ECS -> Docker
 2. It will output GeoJSON
 3. You can copy paste to https://geojson.io
 
+### Demo
+Building limits matched all 3 heigh plateaus.
+![Alt text](/tests/m_3.png?raw=true "Matched 3")
+
+Building limits matched 2 heigh plateaus, 1 unmatched.
+![Alt text](/tests/m_2_u_1.png?raw=true "Matched 2, 1 unmatched")
+
+Building limits matched 1 heigh plateaus, 2 unmatched.
+![Alt text](/tests/m_1_u_2.png?raw=true "Matched 1, 2 unmatched")
+
 
 ## Features
 * Init of basic project
