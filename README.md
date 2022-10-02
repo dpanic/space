@@ -19,16 +19,32 @@ Client -> ALB -> ECS -> Docker
 * ECS: Elastic Cloud Service (3 instances, with auto scaling)
 * Docker (Go Binary) + NFS (AWS EFS)
 
+## Testing
+
+### Option 1
+1. If you're familiar with Go, you can perform Unit tests in splits_test.go:
+```/usr/local/go/bin/go test -timeout 30s -run ^TestSplits$ space/backend/logic -count=1 -v```
+2. It will output splits_%d.json file which you can load in https://geojson.io and see your results
+
+### Option 2
+1. You can run POSTMAN collection with UPDATE
+2. It will output GeoJSON
+3. You can copy paste to https://geojson.io
+
 
 ## Features
 * Init of basic project
 * REST API 
-    * Create:     POST /projects
-    * Read:       GET /projects/:id
-    * Update:     PUT /projects/:id
-    * Delete:     DELETE /projects/:id
-    * Read all:   GET /projects/
+    * Create:             POST /projects
+    * Read:               GET /projects/:id
+    * Read GeoJSON:       GET /projects/:id?o=geojson
+    * Update:             PUT /projects/:id
+    * Update GeoJSON:     PUT /projects/:id?o=geojson
+    * Delete:             DELETE /projects/:id
+    * Read all:           GET /projects/
     
+Parameter geojson outputs data compatible for geojson.io and similar viewers
+
 * Persistent storage adapters (disk, extensible to s3 etc.)
 * Create deploy to ECS
     * Build in Docker
@@ -41,8 +57,14 @@ Client -> ALB -> ECS -> Docker
 * HTTP Basic Auth
 * Create Postman Collection for DEVELOPMENT and PRODUCTION
 * API shows version and last built time, uptime of service
-* Implement logic - 2h %
-* Create Unit Tests - 1h % 
+* Render output for geojson on UPDATE and READ API routes
+
+* Implement logic 
+    * compare one by one 
+    * create intersections and differences
+    * add colors to building_splits
+
+* Create Unit Tests
 
 
 ## Build

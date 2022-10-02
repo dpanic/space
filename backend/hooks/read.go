@@ -6,6 +6,7 @@ import (
 	"space/lib/logger"
 	"space/lib/server"
 	"space/lib/server/middlewares"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -15,12 +16,13 @@ import (
 func readHandler(ctx *gin.Context) {
 	var (
 		res     interface{}
+		isRaw   bool
 		sErrors = make([]error, 0)
 	)
 
 	logger.Log.Debug("attempt to read projects")
 	defer func() {
-		response(ctx, sErrors, res, "read")
+		response(ctx, sErrors, res, isRaw, "read")
 	}()
 	defer middlewares.MiddlewareRecovery(ctx)
 
@@ -28,6 +30,10 @@ func readHandler(ctx *gin.Context) {
 		id       = ctx.Param("id")
 		readType = "single"
 	)
+
+	outType, _ := ctx.GetQuery("o")
+	outType = strings.ToLower(outType)
+
 	if id == "" {
 		readType = "multiple"
 	}
@@ -45,7 +51,13 @@ func readHandler(ctx *gin.Context) {
 			sErrors = append(sErrors, err)
 			return
 		}
-		res = obj
+
+		if outType == "geojson" {
+			res = obj.Data.BuildingSplits
+			isRaw = true
+		} else {
+			res = obj
+		}
 
 	case "multiple":
 		// read multiple projects

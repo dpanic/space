@@ -16,12 +16,13 @@ func deleteHandler(ctx *gin.Context) {
 	var (
 		sErrors = make([]error, 0)
 		res     interface{}
+		isRaw   bool
 		id      string
 	)
 
 	logger.Log.Debug("attempt to delete project")
 	defer func() {
-		response(ctx, sErrors, res, "delete")
+		response(ctx, sErrors, res, isRaw, "delete")
 	}()
 	defer middlewares.MiddlewareRecovery(ctx)
 

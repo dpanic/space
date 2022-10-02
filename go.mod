@@ -3,17 +3,19 @@ module space
 go 1.19
 
 require (
+	github.com/engelsjk/polygol v0.0.3
 	github.com/fatih/color v1.13.0
 	github.com/gin-gonic/gin v1.7.7
-	github.com/go-playground/validator/v10 v10.4.1
 	github.com/google/uuid v1.3.0
 	go.uber.org/zap v1.19.1
 )
 
 require (
+	github.com/engelsjk/splay-tree v0.0.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.13.0 // indirect
 	github.com/go-playground/universal-translator v0.17.0 // indirect
+	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/json-iterator/go v1.1.9 // indirect

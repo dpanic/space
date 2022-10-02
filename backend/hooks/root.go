@@ -1,7 +1,6 @@
 package hooks
 
 import (
-	"errors"
 	"fmt"
 	"space/backend/models"
 	"space/backend/storages"
@@ -30,16 +29,15 @@ type Response struct {
 	Errors  []string    `json:"errors,omitempty"`
 }
 
-func response(ctx *gin.Context, sErrors []error, res interface{}, action string) {
+func response(ctx *gin.Context, sErrors []error, res interface{}, isRaw bool, action string) {
+	if isRaw {
+		serverAction.Response(ctx, res)
+		return
+	}
+
 	var (
 		response Response
 	)
-
-	trace := ctx.GetString("trace")
-	if trace != "" {
-		err := errors.New("internal server error happened. check logs")
-		sErrors = append(sErrors, err)
-	}
 
 	if len(sErrors) > 0 {
 		var (

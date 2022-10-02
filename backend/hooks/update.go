@@ -7,6 +7,7 @@ import (
 	"space/lib/logger"
 	"space/lib/server"
 	"space/lib/server/middlewares"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,12 +17,13 @@ func updateHandler(ctx *gin.Context) {
 	var (
 		sErrors    = make([]error, 0)
 		res        interface{}
+		isRaw      bool
 		newProject *models.Project
 	)
 
 	logger.Log.Debug("attempt to update project")
 	defer func() {
-		response(ctx, sErrors, res, "update")
+		response(ctx, sErrors, res, isRaw, "update")
 	}()
 	defer middlewares.MiddlewareRecovery(ctx)
 
@@ -38,6 +40,9 @@ func updateHandler(ctx *gin.Context) {
 		return
 	}
 
+	outType, _ := ctx.GetQuery("o")
+	outType = strings.ToLower(outType)
+
 	currentProject, err := (*storage).Read(id)
 	if err != nil {
 		err = errors.New("project doesn't exist")
@@ -46,9 +51,9 @@ func updateHandler(ctx *gin.Context) {
 	}
 
 	// execute logic
-	updatedProject, err := logic.Update(currentProject, newProject)
-	if err != nil {
-		sErrors = append(sErrors, err)
+	updatedProject, updateErrors := logic.Update(currentProject, newProject)
+	if updateErrors != nil {
+		sErrors = append(sErrors, updateErrors...)
 		return
 	}
 
@@ -59,7 +64,12 @@ func updateHandler(ctx *gin.Context) {
 		return
 	}
 
-	res = updatedProject
+	if outType == "geojson" {
+		res = updatedProject.Data.BuildingSplits
+		isRaw = true
+	} else {
+		res = updatedProject
+	}
 }
 
 func init() {
