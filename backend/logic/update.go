@@ -22,13 +22,13 @@ func Update(currentProject, newProject *models.Project) (updatedProject *models.
 	}
 
 	// check if any feature is defined in heigh plateaus
-	if len(newProject.Data.HeighPlateaus.Features) == 0 {
-		err := errors.New("heighPlateaus aren't defined")
+	if len(newProject.Data.HeightPlateaus.Features) == 0 {
+		err := errors.New("heightPlateaus aren't defined")
 		sErrors = append(sErrors, err)
 	}
 
 	// check if elevations are defined in each heigh plateaus
-	for i, feature := range newProject.Data.HeighPlateaus.Features {
+	for i, feature := range newProject.Data.HeightPlateaus.Features {
 		if _, ok := feature.Properties["elevation"]; !ok {
 			err := fmt.Errorf("elevation not defined on heigh plateaus with index %d", i)
 			sErrors = append(sErrors, err)

@@ -24,7 +24,7 @@ func Create(name string) (project *models.Project, err error) {
 			BuildingLimits: &models.GeoJSONFeatureCollection{
 				Features: make([]*models.GeoJSONFeature, 0),
 			},
-			HeighPlateaus: &models.GeoJSONFeatureCollection{
+			HeightPlateaus: &models.GeoJSONFeatureCollection{
 				Features: make([]*models.GeoJSONFeature, 0),
 			},
 			BuildingSplits: &models.GeoJSONFeatureCollection{

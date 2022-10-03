@@ -24,7 +24,7 @@ type Project struct {
 
 type Data struct {
 	BuildingLimits *GeoJSONFeatureCollection `json:"building_limits"`
-	HeighPlateaus  *GeoJSONFeatureCollection `json:"heigh_plateaus"`
+	HeightPlateaus *GeoJSONFeatureCollection `json:"height_plateaus"`
 	BuildingSplits *GeoJSONFeatureCollection `json:"building_splits"`
 }
 
@@ -40,8 +40,8 @@ var (
 			"height":         10,
 		},
 
-		"HeighPlateaus": {
-			"name":           "HeighPlateaus",
+		"HeightPlateaus": {
+			"name":           "HeightPlateaus",
 			"elevation":      0,
 			"stroke":         "#000000",
 			"stroke-width":   2,
@@ -95,20 +95,20 @@ func (data *Data) Populate() {
 		}
 	}
 
-	if data.HeighPlateaus != nil {
-		data.HeighPlateaus.Type = "FeatureCollection"
+	if data.HeightPlateaus != nil {
+		data.HeightPlateaus.Type = "FeatureCollection"
 
-		for i := range data.HeighPlateaus.Features {
-			properties := GetProperty("HeighPlateaus")
-			properties["elevation"] = data.HeighPlateaus.Features[i].Properties["elevation"]
-			properties["name"] = "HeighPlateaus"
+		for i := range data.HeightPlateaus.Features {
+			properties := GetProperty("HeightPlateaus")
+			properties["elevation"] = data.HeightPlateaus.Features[i].Properties["elevation"]
+			properties["name"] = "HeightPlateaus"
 
-			data.HeighPlateaus.Features[i] = &GeoJSONFeature{
+			data.HeightPlateaus.Features[i] = &GeoJSONFeature{
 				Type:       "Feature",
 				Properties: properties,
 				Geometry: GeoJSONGeometry{
 					Type:        "Polygon",
-					Coordinates: data.HeighPlateaus.Features[i].Geometry.Coordinates,
+					Coordinates: data.HeightPlateaus.Features[i].Geometry.Coordinates,
 				},
 			}
 		}

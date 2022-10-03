@@ -10,7 +10,7 @@ import (
 
 type test struct {
 	BuildingLimits [][][]float64
-	HeighPlateaus  []map[string]interface{}
+	HeightPlateaus []map[string]interface{}
 	Wants          wants
 }
 type wants struct {
@@ -25,7 +25,7 @@ var tests = []test{
 				{0.0, 0.0}, {0.0, 60.0}, {60.0, 60.0}, {60.0, 0.0}, {0.0, 0.0},
 			},
 		},
-		HeighPlateaus: []map[string]interface{}{
+		HeightPlateaus: []map[string]interface{}{
 			{
 				"elevation": float64(10),
 				"coordinates": [][]float64{
@@ -56,7 +56,7 @@ var tests = []test{
 				{0.0, 40.0}, {60.0, 40.0}, {60.0, 60.0}, {0.0, 60.0}, {0.0, 40.0},
 			},
 		},
-		HeighPlateaus: []map[string]interface{}{
+		HeightPlateaus: []map[string]interface{}{
 			{
 				"elevation": float64(10),
 				"coordinates": [][]float64{
@@ -88,7 +88,7 @@ var tests = []test{
 				{0.0, 0.0}, {0.0, 60.0}, {60.0, 60.0}, {60.0, 0.0}, {0.0, 0.0},
 			},
 		},
-		HeighPlateaus: []map[string]interface{}{
+		HeightPlateaus: []map[string]interface{}{
 			{
 				"elevation": float64(10),
 				"coordinates": [][]float64{
@@ -123,7 +123,7 @@ var tests = []test{
 				{0.0, 0.0}, {60.0, 0.0}, {60.0, 30.0}, {0.0, 30.0}, {0.0, 0.0},
 			},
 		},
-		HeighPlateaus: []map[string]interface{}{
+		HeightPlateaus: []map[string]interface{}{
 			{
 				"elevation": float64(10),
 				"coordinates": [][]float64{
@@ -197,14 +197,14 @@ func init() {
 
 func getProject(index int) (project models.Project) {
 	BuildingLimits := tests[index].BuildingLimits
-	HeighPlateaus := tests[index].HeighPlateaus
+	HeightPlateaus := tests[index].HeightPlateaus
 
 	project = models.Project{
 		Data: &models.Data{
 			BuildingLimits: &models.GeoJSONFeatureCollection{
 				Features: []*models.GeoJSONFeature{},
 			},
-			HeighPlateaus: &models.GeoJSONFeatureCollection{
+			HeightPlateaus: &models.GeoJSONFeatureCollection{
 				Features: []*models.GeoJSONFeature{},
 			},
 
@@ -228,7 +228,7 @@ func getProject(index int) (project models.Project) {
 		project.Data.BuildingLimits.Features = append(project.Data.BuildingLimits.Features, &obj)
 	}
 
-	for _, hp := range HeighPlateaus {
+	for _, hp := range HeightPlateaus {
 		obj := models.GeoJSONFeature{
 			Properties: map[string]interface{}{
 				"elevation": hp["elevation"],
@@ -240,7 +240,7 @@ func getProject(index int) (project models.Project) {
 			},
 		}
 
-		project.Data.HeighPlateaus.Features = append(project.Data.HeighPlateaus.Features, &obj)
+		project.Data.HeightPlateaus.Features = append(project.Data.HeightPlateaus.Features, &obj)
 	}
 
 	return

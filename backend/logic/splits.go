@@ -14,8 +14,8 @@ func Splits(project *models.Project) (buildingSplits []*models.GeoJSONFeature) {
 	buildingLimits := make([]*models.GeoJSONFeature, 0)
 	buildingLimits = append(buildingLimits, project.Data.BuildingLimits.Features...)
 
-	heighPlateaus := make([]*models.GeoJSONFeature, 0)
-	heighPlateaus = append(heighPlateaus, project.Data.HeighPlateaus.Features...)
+	heightPlateaus := make([]*models.GeoJSONFeature, 0)
+	heightPlateaus = append(heightPlateaus, project.Data.HeightPlateaus.Features...)
 
 	for len(buildingLimits) > 0 {
 		// pop first element of buildingLimits
@@ -25,7 +25,7 @@ func Splits(project *models.Project) (buildingSplits []*models.GeoJSONFeature) {
 		var (
 			isMatched bool
 		)
-		for i, hl := range heighPlateaus {
+		for i, hl := range heightPlateaus {
 			b := polygol.Geom{
 				bl.Geometry.Coordinates,
 			}
@@ -41,7 +41,7 @@ func Splits(project *models.Project) (buildingSplits []*models.GeoJSONFeature) {
 			if len(intersection) > 0 {
 				log := logger.Log.WithOptions(zap.Fields(
 					zap.Any("buildingLimits", bl.Geometry),
-					zap.Any("heighPlateaus", hl.Geometry),
+					zap.Any("heightPlateaus", hl.Geometry),
 					zap.Any("difference", differenceB),
 					zap.Any("intersection", intersection),
 					zap.Float64("elevation", hl.Properties["elevation"].(float64)),
@@ -63,7 +63,7 @@ func Splits(project *models.Project) (buildingSplits []*models.GeoJSONFeature) {
 				isMatched = true
 
 				// remove heigh plateaus from pool
-				heighPlateaus = append(heighPlateaus[:i], heighPlateaus[i+1:]...)
+				heightPlateaus = append(heightPlateaus[:i], heightPlateaus[i+1:]...)
 
 				// if there is non 100% match return heigh plateaus back to pool
 				if len(differenceB) > 0 {
@@ -84,13 +84,13 @@ func Splits(project *models.Project) (buildingSplits []*models.GeoJSONFeature) {
 					obj := models.GeoJSONFeature{
 						Properties: map[string]interface{}{
 							"elevation": hl.Properties["elevation"],
-							"type":      "HeighPlateaus",
+							"type":      "HeightPlateaus",
 						},
 						Geometry: models.GeoJSONGeometry{
 							Coordinates: differenceH[0],
 						},
 					}
-					heighPlateaus = append(heighPlateaus, &obj)
+					heightPlateaus = append(heightPlateaus, &obj)
 				}
 
 				break
@@ -99,7 +99,7 @@ func Splits(project *models.Project) (buildingSplits []*models.GeoJSONFeature) {
 
 		// add bl to unmatched
 		if !isMatched {
-			logger.Log.Info("building limit isn't matched to any heigh plateaus",
+			logger.Log.Info("building limit isn't matched to any height plateaus",
 				zap.Any("buildingLimits", bl.Geometry),
 				zap.Any("buildingLimits", bl.Geometry),
 			)
@@ -110,13 +110,13 @@ func Splits(project *models.Project) (buildingSplits []*models.GeoJSONFeature) {
 		}
 	}
 
-	for _, hl := range heighPlateaus {
+	for _, hl := range heightPlateaus {
 		logger.Log.Info("heigh plateaus is unmatched",
-			zap.Any("heighPlateaus", hl.Geometry),
+			zap.Any("heightPlateaus", hl.Geometry),
 		)
 
 		hl.Properties["status"] = "unmatched"
-		hl.Properties["type"] = "HeighPlateaus"
+		hl.Properties["type"] = "HeightPlateaus"
 		buildingSplits = append(buildingSplits, hl)
 	}
 

@@ -3,6 +3,14 @@
 
 Agnostic API built in Go Lang, made for purposes of test building blocks.
 
+**Building limits**: The areas (polygons) on your site where you are allowed to build
+
+**Height plateaus**: Areas (polygons) on your site with different elevation. In reality, your building site is a continuous irregular terrain, but before building, you level your
+terrain into discrete plateaus with constant elevation.
+
+**Building splits**: Corresponding areas (polygons) of building limits that match certain heigh plateaus
+
+
 You should set .envrc and .aws_credentials
 
 
