@@ -32,7 +32,7 @@ var (
 	properties = map[string]map[string]interface{}{
 		"BuildingLimits": {
 			"name":           "BuildingLimits",
-			"stroke":         "#555555",
+			"stroke":         "#000000",
 			"stroke-width":   2,
 			"stroke-opacity": 1,
 			"fill":           "#555555",
@@ -43,10 +43,10 @@ var (
 		"HeighPlateaus": {
 			"name":           "HeighPlateaus",
 			"elevation":      0,
-			"stroke":         "#FF0000",
+			"stroke":         "#000000",
 			"stroke-width":   2,
 			"stroke-opacity": 1,
-			"fill":           "#FF0000",
+			"fill":           "#00FF00",
 			"fill-opacity":   0.9,
 			"height":         10,
 		},
@@ -54,7 +54,7 @@ var (
 		"BuildingSplits": {
 			"name":           "BuildingSplits",
 			"elevation":      0,
-			"stroke":         "#0000FF",
+			"stroke":         "#000000",
 			"stroke-width":   2,
 			"stroke-opacity": 1,
 			"fill":           "#0000FF",
