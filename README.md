@@ -46,15 +46,15 @@ Building limits matched all 3 heigh plateaus.
 
 Building limits matched 2 heigh plateaus, 1 unmatched.
 <br>
-<img src="tests/m_2_u_1.png?raw=true" width="60%" />
+<img src="tests/m_2_u_1.png?raw=true" width="70%" />
 
 Building limits matched 1 heigh plateaus, 2 unmatched.
 <br>
-<img src="tests/m_1_u_2.png?raw=true" width="60%" />
+<img src="tests/m_1_u_2.png?raw=true" width="70%" />
 
 2 Building limits matched 4 heigh plateaus, 0 unmatched.
 <br>
-<img src="tests/m_4.png?raw=true" width="60%" />
+<img src="tests/m_4.png?raw=true" width="70%" />
 
 ## Features
 * Init of basic project
