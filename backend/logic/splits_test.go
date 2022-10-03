@@ -9,7 +9,7 @@ import (
 )
 
 type test struct {
-	BuildingLimits [][]float64
+	BuildingLimits [][][]float64
 	HeighPlateaus  []map[string]interface{}
 	Wants          wants
 }
@@ -20,8 +20,10 @@ type wants struct {
 
 var tests = []test{
 	{
-		BuildingLimits: [][]float64{
-			{0.0, 0.0}, {0.0, 60.0}, {60.0, 60.0}, {60.0, 0.0}, {0.0, 0.0},
+		BuildingLimits: [][][]float64{
+			{
+				{0.0, 0.0}, {0.0, 60.0}, {60.0, 60.0}, {60.0, 0.0}, {0.0, 0.0},
+			},
 		},
 		HeighPlateaus: []map[string]interface{}{
 			{
@@ -49,8 +51,10 @@ var tests = []test{
 	},
 
 	{
-		BuildingLimits: [][]float64{
-			{0.0, 40.0}, {60.0, 40.0}, {60.0, 60.0}, {0.0, 60.0}, {0.0, 40.0},
+		BuildingLimits: [][][]float64{
+			{
+				{0.0, 40.0}, {60.0, 40.0}, {60.0, 60.0}, {0.0, 60.0}, {0.0, 40.0},
+			},
 		},
 		HeighPlateaus: []map[string]interface{}{
 			{
@@ -79,8 +83,10 @@ var tests = []test{
 	},
 
 	{
-		BuildingLimits: [][]float64{
-			{0.0, 0.0}, {0.0, 60.0}, {60.0, 60.0}, {60.0, 0.0}, {0.0, 0.0},
+		BuildingLimits: [][][]float64{
+			{
+				{0.0, 0.0}, {0.0, 60.0}, {60.0, 60.0}, {60.0, 0.0}, {0.0, 0.0},
+			},
 		},
 		HeighPlateaus: []map[string]interface{}{
 			{
@@ -107,9 +113,42 @@ var tests = []test{
 			Unmatched: 1,
 		},
 	},
+
+	// {
+	// 	BuildingLimits: [][][]float64{
+	// 		{
+	// 			{0.0, 0.0}, {0.0, 60.0}, {60.0, 60.0}, {60.0, 0.0}, {0.0, 0.0},
+	// 		},
+	// 	},
+	// 	HeighPlateaus: []map[string]interface{}{
+	// 		{
+	// 			"elevation": float64(10),
+	// 			"coordinates": [][]float64{
+	// 				{0.0, 40.0}, {60.0, 40.0}, {60.0, 60.0}, {0.0, 60.0}, {0.0, 40.0},
+	// 			},
+	// 		},
+	// 		{
+	// 			"elevation": float64(20),
+	// 			"coordinates": [][]float64{
+	// 				{0.0, 20.0}, {60.0, 20.0}, {60.0, 40.0}, {0.0, 40.0}, {0.0, 20.0},
+	// 			},
+	// 		},
+	// 		{
+	// 			"elevation": float64(30),
+	// 			"coordinates": [][]float64{
+	// 				{0.0, 0.0}, {60.0, 0.0}, {60.0, 20.0}, {0.0, 20.0}, {0.0, 0.0},
+	// 			},
+	// 		},
+	// 	},
+	// 	Wants: wants{
+	// 		Matched:   3,
+	// 		Unmatched: 1,
+	// 	},
+	// },
 }
 
 func TestSplits(t *testing.T) {
+	totalTests := len(tests)
 	for idx := range tests {
 		project := getProject(idx)
 		project.Data.Populate()
@@ -140,11 +179,11 @@ func TestSplits(t *testing.T) {
 		}
 
 		if matched != tests[idx].Wants.Matched {
-			t.Errorf("Wanted 'matched' == %d, got %d.\n", tests[idx].Wants.Matched, matched)
+			t.Errorf("[ test %d / %d ] Wanted 'matched' == %d, got %d.\n", idx+1, totalTests, tests[idx].Wants.Matched, matched)
 		}
 
 		if unmatched != tests[idx].Wants.Unmatched {
-			t.Errorf("Wanted 'unmatched' == %d, got %d.\n", tests[idx].Wants.Unmatched, unmatched)
+			t.Errorf("[ test %d / %d ] Wanted 'unmatched' == %d, got %d.\n", idx+1, totalTests, tests[idx].Wants.Unmatched, unmatched)
 		}
 	}
 }
@@ -160,16 +199,7 @@ func getProject(index int) (project models.Project) {
 	project = models.Project{
 		Data: &models.Data{
 			BuildingLimits: &models.GeoJSONFeatureCollection{
-				Features: []*models.GeoJSONFeature{
-					{
-						Properties: models.GetProperty("BuildingLimits"),
-						Geometry: models.GeoJSONGeometry{
-							Coordinates: [][][]float64{
-								BuildingLimits,
-							},
-						},
-					},
-				},
+				Features: []*models.GeoJSONFeature{},
 			},
 			HeighPlateaus: &models.GeoJSONFeatureCollection{
 				Features: []*models.GeoJSONFeature{},
@@ -179,6 +209,20 @@ func getProject(index int) (project models.Project) {
 				Features: []*models.GeoJSONFeature{},
 			},
 		},
+	}
+
+	for _, hp := range BuildingLimits {
+		var coordinates [][][]float64
+		coordinates = append(coordinates, hp)
+
+		obj := models.GeoJSONFeature{
+			Properties: map[string]interface{}{},
+			Geometry: models.GeoJSONGeometry{
+				Coordinates: coordinates,
+			},
+		}
+
+		project.Data.BuildingLimits.Features = append(project.Data.HeighPlateaus.Features, &obj)
 	}
 
 	for _, hp := range HeighPlateaus {

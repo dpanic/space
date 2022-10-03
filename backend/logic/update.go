@@ -21,12 +21,6 @@ func Update(currentProject, newProject *models.Project) (updatedProject *models.
 		sErrors = append(sErrors, err)
 	}
 
-	// check if any feature is defined in building limits
-	if len(newProject.Data.BuildingLimits.Features) != 1 {
-		err := errors.New("buildingLimits are different than 1, should be defined all in 1 feature")
-		sErrors = append(sErrors, err)
-	}
-
 	// check if any feature is defined in heigh plateaus
 	if len(newProject.Data.HeighPlateaus.Features) == 0 {
 		err := errors.New("heighPlateaus aren't defined")

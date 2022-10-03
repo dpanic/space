@@ -78,17 +78,20 @@ func GetProperty(name string) (out map[string]interface{}) {
 
 func (data *Data) Populate() {
 	if data.BuildingLimits != nil {
-		data.BuildingLimits.Type = "FeatureCollection"
-		properties := GetProperty("BuildingLimits")
-		properties["name"] = "BuildingLimits"
 
-		data.BuildingLimits.Features[0] = &GeoJSONFeature{
-			Type:       "Feature",
-			Properties: properties,
-			Geometry: GeoJSONGeometry{
-				Type:        "Polygon",
-				Coordinates: data.BuildingLimits.Features[0].Geometry.Coordinates,
-			},
+		for i := range data.BuildingLimits.Features {
+			data.BuildingLimits.Type = "FeatureCollection"
+			properties := GetProperty("BuildingLimits")
+			properties["name"] = "BuildingLimits"
+
+			data.BuildingLimits.Features[0] = &GeoJSONFeature{
+				Type:       "Feature",
+				Properties: properties,
+				Geometry: GeoJSONGeometry{
+					Type:        "Polygon",
+					Coordinates: data.BuildingLimits.Features[i].Geometry.Coordinates,
+				},
+			}
 		}
 	}
 
