@@ -114,37 +114,40 @@ var tests = []test{
 		},
 	},
 
-	// {
-	// 	BuildingLimits: [][][]float64{
-	// 		{
-	// 			{0.0, 0.0}, {0.0, 60.0}, {60.0, 60.0}, {60.0, 0.0}, {0.0, 0.0},
-	// 		},
-	// 	},
-	// 	HeighPlateaus: []map[string]interface{}{
-	// 		{
-	// 			"elevation": float64(10),
-	// 			"coordinates": [][]float64{
-	// 				{0.0, 40.0}, {60.0, 40.0}, {60.0, 60.0}, {0.0, 60.0}, {0.0, 40.0},
-	// 			},
-	// 		},
-	// 		{
-	// 			"elevation": float64(20),
-	// 			"coordinates": [][]float64{
-	// 				{0.0, 20.0}, {60.0, 20.0}, {60.0, 40.0}, {0.0, 40.0}, {0.0, 20.0},
-	// 			},
-	// 		},
-	// 		{
-	// 			"elevation": float64(30),
-	// 			"coordinates": [][]float64{
-	// 				{0.0, 0.0}, {60.0, 0.0}, {60.0, 20.0}, {0.0, 20.0}, {0.0, 0.0},
-	// 			},
-	// 		},
-	// 	},
-	// 	Wants: wants{
-	// 		Matched:   3,
-	// 		Unmatched: 1,
-	// 	},
-	// },
+	{
+		BuildingLimits: [][][]float64{
+			{
+				{0.0, 30.0}, {60.0, 30.0}, {60.0, 60.0}, {0.0, 60.0}, {0.0, 30.0},
+			},
+			{
+				{0.0, 0.0}, {60.0, 0.0}, {60.0, 30.0}, {0.0, 30.0}, {0.0, 0.0},
+			},
+		},
+		HeighPlateaus: []map[string]interface{}{
+			{
+				"elevation": float64(10),
+				"coordinates": [][]float64{
+					{0.0, 40.0}, {60.0, 40.0}, {60.0, 60.0}, {0.0, 60.0}, {0.0, 40.0},
+				},
+			},
+			{
+				"elevation": float64(20),
+				"coordinates": [][]float64{
+					{0.0, 20.0}, {60.0, 20.0}, {60.0, 40.0}, {0.0, 40.0}, {0.0, 20.0},
+				},
+			},
+			{
+				"elevation": float64(30),
+				"coordinates": [][]float64{
+					{0.0, 0.0}, {60.0, 0.0}, {60.0, 20.0}, {0.0, 20.0}, {0.0, 0.0},
+				},
+			},
+		},
+		Wants: wants{
+			Matched:   4,
+			Unmatched: 0,
+		},
+	},
 }
 
 func TestSplits(t *testing.T) {
@@ -211,9 +214,9 @@ func getProject(index int) (project models.Project) {
 		},
 	}
 
-	for _, hp := range BuildingLimits {
+	for _, bl := range BuildingLimits {
 		var coordinates [][][]float64
-		coordinates = append(coordinates, hp)
+		coordinates = append(coordinates, bl)
 
 		obj := models.GeoJSONFeature{
 			Properties: map[string]interface{}{},
@@ -222,7 +225,7 @@ func getProject(index int) (project models.Project) {
 			},
 		}
 
-		project.Data.BuildingLimits.Features = append(project.Data.HeighPlateaus.Features, &obj)
+		project.Data.BuildingLimits.Features = append(project.Data.BuildingLimits.Features, &obj)
 	}
 
 	for _, hp := range HeighPlateaus {

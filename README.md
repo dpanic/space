@@ -42,6 +42,9 @@ Building limits matched 1 heigh plateaus, 2 unmatched.
 ![Alt text](/tests/m_1_u_2.png?raw=true "Matched 1, 2 unmatched")
 
 
+2 Building limits matched 4 heigh plateaus, 0 unmatched.
+![Alt text](/tests/m_4.png?raw=true "Matched 4")
+
 ## Features
 * Init of basic project
 * REST API 

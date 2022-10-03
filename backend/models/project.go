@@ -36,7 +36,7 @@ var (
 			"stroke-width":   2,
 			"stroke-opacity": 1,
 			"fill":           "#555555",
-			"fill-opacity":   0.1,
+			"fill-opacity":   0.9,
 			"height":         10,
 		},
 
@@ -77,14 +77,14 @@ func GetProperty(name string) (out map[string]interface{}) {
 }
 
 func (data *Data) Populate() {
-	if data.BuildingLimits != nil {
+	data.BuildingLimits.Type = "FeatureCollection"
 
+	if data.BuildingLimits != nil {
 		for i := range data.BuildingLimits.Features {
-			data.BuildingLimits.Type = "FeatureCollection"
 			properties := GetProperty("BuildingLimits")
 			properties["name"] = "BuildingLimits"
 
-			data.BuildingLimits.Features[0] = &GeoJSONFeature{
+			data.BuildingLimits.Features[i] = &GeoJSONFeature{
 				Type:       "Feature",
 				Properties: properties,
 				Geometry: GeoJSONGeometry{
